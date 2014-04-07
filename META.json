@@ -36,7 +36,7 @@
          "requires" : {
             "Config::Identity" : "0",
             "Exporter" : "0",
-            "PAUSE::Permissions" : "0.06",
+            "PAUSE::Permissions" : "0.09",
             "Parse::CPAN::Meta" : "0",
             "Parse::LocalDistribution" : "0.07",
             "Parse::PMFile" : "0.15",
@@ -50,5 +50,5 @@
          "url" : "https://github.com/charsbar/Test-PAUSE-Permissions"
       }
    },
-   "version" : "0.01"
+   "version" : "0.02"
 }
