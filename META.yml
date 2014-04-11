@@ -7,8 +7,8 @@ build_requires:
   Test::More: '0.88'
   Test::UseAllModules: '0.10'
 configure_requires:
-  ExtUtils::MakeMaker::CPANfile: '0.04'
-dynamic_config: 1
+  ExtUtils::MakeMaker::CPANfile: '0.06'
+dynamic_config: 0
 generated_by: 'ExtUtils::MakeMaker version 6.76, CPAN::Meta::Converter version 2.140640'
 license: perl
 meta-spec:
@@ -24,9 +24,9 @@ requires:
   Exporter: '0'
   PAUSE::Permissions: '0.09'
   Parse::CPAN::Meta: '0'
-  Parse::LocalDistribution: '0.07'
+  Parse::LocalDistribution: '0.08'
   Parse::PMFile: '0.15'
   parent: '0'
 resources:
   repository: https://github.com/charsbar/Test-PAUSE-Permissions
-version: '0.04'
+version: '0.05'

@@ -7,7 +7,7 @@ use Test::More;
 use PAUSE::Permissions;
 use Parse::LocalDistribution;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 our @EXPORT = (@Test::More::EXPORT, qw/all_permissions_ok/);
 
@@ -33,12 +33,7 @@ sub all_permissions_ok {
   # Iterate
 SKIP:
   for my $package (keys %$provides) {
-    my $authority = uc(
-      $meta_authority
-      || _get_authority_in_file($package, $provides->{$package})
-      || $author
-      || ''
-    );
+    my $authority = uc($meta_authority || $author || '');
 
     my $mp = $perms->module_permissions($package);
 
@@ -54,6 +49,16 @@ SKIP:
     }
     else {
       fail "$package: maintained by ".join ', ', @maintainers;
+    }
+
+    # $AUTHORITY has no effect in PAUSE.
+    # just see if $AUTHORITY matches x_authority for information
+    if ($meta_authority) {
+      my $file_authority = _get_authority_in_file($package, $provides->{$package});
+      if ($file_authority && $file_authority ne $meta_authority) {
+        # XXX: should fail?
+        diag "$package: \$AUTHORITY ($file_authority) doesn't match x_authority ($meta_authority)";
+      }
     }
   }
 
@@ -124,8 +129,13 @@ Test::PAUSE::Permissions - tests module permissions in your distribution
 This module is to test if modules in your distribution have proper
 permissions or not. You need to set RELEASE_TESTING to test this.
 
-You might also want to prepare .pause file (you should have one to
-release distributions anyway).
+If your distribution has modules/packages that should not be
+indexed, you might want to generate META files before you run this
+test to provide C<no_index> information to Test::PAUSE::Permissions.
+
+You might also want to prepare C<.pause> file to show who is
+releasing the distribution (you should have one to release
+distributions anyway).
 
 =head1 FUNCTION
 
@@ -134,9 +144,8 @@ This module exports only one function (yet):
 =head2 all_permissions_ok
 
 Looks for packages with L<Parse::LocalDistribution>, and tests
-if you (or the registered author) have proper permissions for them
-by L<PAUSE::Permissions>, which downloads C<06perms.txt> from CPAN
-before testing.
+if you have proper permissions for them by L<PAUSE::Permissions>,
+which downloads C<06perms.txt> from CPAN before testing.
 
 By default, C<all_permissions_ok> looks into C<.pause> file
 to find who is releasing the distribution.
